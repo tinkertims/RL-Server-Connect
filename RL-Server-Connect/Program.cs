@@ -32,6 +32,22 @@ namespace RL_Server_Connect
         static void Main(string[] args)
         {
             String sIpAddress = "127.0.0.1";
+
+            if (args == null)
+            {
+                Console.WriteLine("No IP specified, Redirecting RL to 127.0.0.1"); // Check for null array
+            }
+            else
+            {
+                if (args.Length >= 1)
+                {
+                    sIpAddress = args[0];
+                }
+            }
+            Console.WriteLine("Server IP address set to " + sIpAddress + ".");
+
+            Console.WriteLine("Remember this application must be running for players to connect to your dedicated server.\n");
+
             // Create a timer with a ten second interval.
             System.Timers.Timer aTimer = new System.Timers.Timer(10000);
 
@@ -278,7 +294,7 @@ namespace RL_Server_Connect
             bDone = false;
             do
             {
-                Console.WriteLine("\nEnter a command [C=Clear; L=List; G=Collect Garbage; W=write SAZ; R=read SAZ;\n\tS=Toggle Forgetful Streaming; T=Trust Root Certificate; Q=Quit]:");
+                Console.WriteLine("\nEnter a command [C=Clear; L=List; G=Collect Garbage; I=Edit IP Address; W=write SAZ; R=read SAZ;\n\tS=Toggle Forgetful Streaming; T=Trust Root Certificate; Q=Quit]:");
                 Console.Write(">");
                 ConsoleKeyInfo cki = Console.ReadKey();
                 Console.WriteLine();
@@ -295,7 +311,11 @@ namespace RL_Server_Connect
                         GC.Collect();
                         Console.WriteLine("GC Done.\nWorking Set:\t" + Environment.WorkingSet.ToString("n0"));
                         break;
-
+                    case 'i':
+                        Console.WriteLine("Enter New Server IP Address:");
+                        sIpAddress = Console.ReadLine();
+                        Console.WriteLine("Server IP address set to " + sIpAddress);
+                        break;
                     case 'q':
                         bDone = true;
                         DoQuit();
